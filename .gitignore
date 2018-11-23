@@ -1,52 +1,85 @@
-# Prerequisites
-*.d
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+#define N 5
+void selectionSort(int Matrix[][N]);
+void outMatrix(int Matrix[][N]);
+void ArithmeticMean(int Matrix[][N], int  *Sum);
+int main()
+{
+	int Matrix[N][N] =
 
-# Object files
-*.o
-*.ko
-*.obj
-*.elf
+	{ 1, 6,  21,  11,   6,
+2,  17,  22,  12,   7,
+3,  18,  23,  13,   8,
+4,  19,  24,  14,   9,
+5,  20,  25,  15,  10 };
+	int Sum[N - 1] = { 0 };
+	int Mul = 1;
+	outMatrix(Matrix);
+	selectionSort(Matrix);
+	ArithmeticMean(Matrix, Sum);
 
-# Linker output
-*.ilk
-*.map
-*.exp
+	outMatrix(Matrix);
+	printf("\n");
+	for (int i = 0; i < N - 1; ++i)
+	{
+		printf("1st =  %d\n", Sum[i]);
+		Mul *= Sum[i];
+	}
 
-# Precompiled Headers
-*.gch
-*.pch
+	printf("Multy = %d\n", Mul);
 
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
 
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
 
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
+	system("pause");
+	return 0;
+}
+void selectionSort(int Matrix[][N])
+{
+	int temp;
+	int index;
+	int min;
+	for (int j = 0;j < N;++j) {
+		for (int k = 0;k < N - 1;++k) {
+			min = Matrix[j][k];
+			index = k;
+			for (int i = k + 1;i < N;++i) {
+				if (Matrix[j][i] < min)
+				{
+					min = Matrix[j][i];
+					index = i;
+				}
+			}
+			temp = Matrix[j][k];
+			Matrix[j][k] = Matrix[j][index];
+			Matrix[j][index] = temp;
+		}
+	}
 
-# Debug files
-*.dSYM/
-*.su
-*.idb
-*.pdb
 
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
+}
+
+void outMatrix(int Matrix[][N])
+{
+	for (int i = 0;i < N;++i) {
+		for (int j = 0;j < N;++j)
+			printf("%d\t", Matrix[i][j]);
+		printf("\n");
+	}
+	printf("\n");
+}
+
+void ArithmeticMean(int Matrix[][N], int  *Sum)
+{
+
+	for (int i = 0; i < N - 1; ++i)
+	{
+		for (int j = i + 1; j < N;++j)
+		{
+			Sum[i] += Matrix[j][i];
+
+		}
+		Sum[i] /= N - 1 - i;
+	}
+}
